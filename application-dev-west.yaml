@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook-dev-west
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ali-hamza-noor/deployments.git
+    targetRevision: HEAD
+    path: guestbook
+  destination:
+    server: https://k3d-dev-west-serverlb:6443
+    namespace: guestbook
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
